@@ -1,2 +1,3 @@
-# Retratista
-Identify Human Face from Bare Description
+![Retratista Logo](logo.png)
+
+--------------------------------------------------------------------------------
