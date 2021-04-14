@@ -1,4 +1,4 @@
-![Retratista Logo](logo.png)
+![Retratista Logo](assets/logo.png)
 
 --------------------------------------------------------------------------------
 

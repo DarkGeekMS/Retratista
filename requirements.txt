@@ -1,0 +1,18 @@
+torch torchvision
+Flask
+imageio-ffmpeg
+pyspng
+numpy
+scipy
+requests
+Pillow
+opencv-python
+opencv-contrib-python
+scikit-image
+tqdm
+nltk
+pyparsing
+certifi
+joblib
+urllib3
+coloredlogs
