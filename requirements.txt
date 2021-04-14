@@ -1,4 +1,5 @@
-torch torchvision
+torch
+torchvision
 Flask
 imageio-ffmpeg
 pyspng
