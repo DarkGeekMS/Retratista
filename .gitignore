@@ -127,3 +127,23 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# cache folders
+.vscode
+.stylegan2-cache/
+_cudacache
+
+# data folders
+dataset/
+datasets/
+results/
+networks/
+
+# output files
+Pipfile
+out
+*.csv
+
+# BERT models
+pytorch_model.bin
+train_checkpoint.pth

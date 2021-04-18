@@ -1,0 +1,13 @@
+{
+    "n_classes" : 33,
+    "truncation_psi" : 0.5,
+    "axes_range" : 4.0,
+    "recalculate_logits" : true,
+    "initial_seed_npy" : "dataset/initial_seed.npy",
+    "directions_npy" : "stylegan2_directions/grouped_directions.npy",
+    "stylegan_pt" : "networks/stgan2_model.pt",
+    "text_desc" : "dataset/test_desc.txt",
+    "debug_mode" : true,
+    "debug_features" : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+}
