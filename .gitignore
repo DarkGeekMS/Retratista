@@ -138,6 +138,7 @@ dataset/
 datasets/
 results/
 networks/
+models/
 
 # output files
 Pipfile
