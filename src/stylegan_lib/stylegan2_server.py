@@ -1,14 +1,21 @@
 from stylegan2_networks import SynthesisNetwork
 from text_processing.inference import BERTMultiLabelClassifier
-from utils.seed_generation import generate_seed
-from utils.latent_manipulation import manipulate_latent
-from utils.text_postprocessing import postprocess_text_logits
+from utils import generate_seed, manipulate_latent, postprocess_text_logits
 
 import torch
 import numpy as np
 
 
 class StyleGANServer:
+    """
+    StyleGAN2 Server
+    ...
+
+    Main StyleGAN2 API for :
+    1) Face Generation from text / values.
+    2) Face Refinement.
+    ...
+    """
     def __init__(self):
         # initialize server parameters
         # define CUDA device
@@ -19,8 +26,12 @@ class StyleGANServer:
         # load BERT multi-label classifier
         self.bert_model = BERTMultiLabelClassifier()
         # load StyleGAN2 synthesis network
-        self.stylegan2_generator = SynthesisNetwork(w_dim=512, img_resolution=1024, img_channels=3)
-        self.stylegan2_generator.load_state_dict(torch.load("models/stgan2_model.pt"))
+        self.stylegan2_generator = SynthesisNetwork(
+            w_dim=512, img_resolution=1024, img_channels=3
+        )
+        self.stylegan2_generator.load_state_dict(
+            torch.load("models/stgan2_model.pt")
+        )
         self.stylegan2_generator.to(self.device)
         # load feature directions
         self.attributes_dir = np.load("directions/attributes_directions.npy")
@@ -40,10 +51,13 @@ class StyleGANServer:
     def generate_face(self, values):
         # generate face from attributes values
         # generate initial latent seed
-        latent_vector, image_logits = generate_seed(self.latent_seed, self.attributes_dir)
+        latent_vector, image_logits = generate_seed(
+            self.latent_seed, self.attributes_dir
+        )
         # perform latent manipulation
         target_latent = manipulate_latent(
-            latent_vector, image_logits, values, self.attributes_dir, recalculate=self.recalc_logits
+            latent_vector, image_logits, values,
+            self.attributes_dir, recalculate=self.recalc_logits
         )
         target_latent = np.expand_dims(target_latent, axis=0)
         # convert resultant latent vector into torch tensor
@@ -59,5 +73,6 @@ class StyleGANServer:
         # return final face image
         return face_image
 
-    def refine_face(self):
+    def refine_face(self, offsets):
+        # refine generated face using given attributes offsets
         pass
