@@ -38,6 +38,8 @@ class StyleGANServer:
         self.morph_dir = np.load("directions/morph_directions.npy")
         # load seed latent vectors
         self.latent_seed = np.load("models/initial_seed.npy")
+        # initialize latent vector store
+        self.stored_latent = None
 
     def process_text(self, sent):
         # extract attributes values from text
@@ -55,13 +57,13 @@ class StyleGANServer:
             self.latent_seed, self.attributes_dir
         )
         # perform latent manipulation
-        target_latent = manipulate_latent(
+        self.stored_latent = manipulate_latent(
             latent_vector, image_logits, values,
             self.attributes_dir, recalculate=self.recalc_logits
         )
-        target_latent = np.expand_dims(target_latent, axis=0)
+        w_vector = np.expand_dims(self.stored_latent, axis=0)
         # convert resultant latent vector into torch tensor
-        w_tensor = torch.tensor(target_latent, device=self.device)
+        w_tensor = torch.tensor(w_vector, device=self.device)
         # run StyleGAN2 synthesis network on final tensor
         face_image = self.stylegan2_generator(w_tensor, noise_mode='const')
         # post-process final face image
