@@ -72,9 +72,28 @@ class StyleGANServer:
         face_image[face_image > 1.0] = 1.0
         face_image = (face_image + 1.0) * 127.5
         face_image = face_image.astype(np.uint8)
-        # return final face image
-        return face_image
+        # return final face image and corresponding attributes values
+        return face_image, values
 
-    def refine_face(self, offsets):
-        # refine generated face using given attributes offsets
-        pass
+    def refine_face(self, type, idx, offset):
+        # refine generated face using given attributes (or morph) offsets
+        # re-adjust the stored latent vector
+        if type == 'attribute':
+            self.stored_latent += offset * self.attributes_dir[idx]
+        elif type == 'morph':
+            self.stored_latent += offset * self.morph_dir[idx]
+        else:
+            return
+        w_vector = np.expand_dims(self.stored_latent, axis=0)
+        # convert resultant latent vector into torch tensor
+        w_tensor = torch.tensor(w_vector, device=self.device)
+        # run StyleGAN2 synthesis network on final tensor
+        face_image = self.stylegan2_generator(w_tensor, noise_mode='const')
+        # post-process refined face image
+        face_image = face_image.permute(0, 2, 3, 1).cpu().detach().numpy()[0]
+        face_image[face_image < -1.0] = -1.0
+        face_image[face_image > 1.0] = 1.0
+        face_image = (face_image + 1.0) * 127.5
+        face_image = face_image.astype(np.uint8)
+        # return refined face image
+        return face_image
