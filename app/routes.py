@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from app import app, stgan_server
+from app import app, stgan_server, pose_server
 
 
 @app.route('/tgenerate', methods=['POST'])
