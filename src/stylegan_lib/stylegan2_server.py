@@ -1,6 +1,6 @@
-from stylegan2_networks import SynthesisNetwork
-from text_processing.inference import BERTMultiLabelClassifier
-from utils import generate_seed, manipulate_latent, postprocess_text_logits
+from .stylegan2_networks import SynthesisNetwork
+from .text_processing.inference import BERTMultiLabelClassifier
+from .utils import generate_seed, manipulate_latent, postprocess_text_logits
 
 import torch
 import numpy as np
@@ -30,14 +30,14 @@ class StyleGANServer:
             w_dim=512, img_resolution=1024, img_channels=3
         )
         self.stylegan2_generator.load_state_dict(
-            torch.load("models/stgan2_model.pt")
+            torch.load("src/stylegan_lib/models/stgan2_model.pt")
         )
         self.stylegan2_generator.to(self.device)
         # load feature directions
-        self.attributes_dir = np.load("directions/attributes_directions.npy")
-        self.morph_dir = np.load("directions/morph_directions.npy")
+        self.attributes_dir = np.load("src/stylegan_lib/directions/attributes_directions.npy")
+        self.morph_dir = np.load("src/stylegan_lib/directions/morph_directions.npy")
         # load seed latent vectors
-        self.latent_seed = np.load("models/initial_seed.npy")
+        self.latent_seed = np.load("src/stylegan_lib/models/initial_seed.npy")
         # initialize latent vector store
         self.stored_latent = None
 

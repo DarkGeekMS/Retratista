@@ -20,7 +20,7 @@ import inspect
 import copy
 import uuid
 import types
-import utils
+from .. import utils
 
 #----------------------------------------------------------------------------
 

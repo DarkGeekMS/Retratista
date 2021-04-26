@@ -12,7 +12,7 @@ import os
 import warnings
 import numpy as np
 import torch
-import utils
+from ... import utils
 import traceback
 
 from .. import custom_ops

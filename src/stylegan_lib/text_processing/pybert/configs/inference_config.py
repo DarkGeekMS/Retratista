@@ -1,8 +1,8 @@
 
 from pathlib import Path
 import os
-PYBERT_BASE_DIR = Path('text_processing/pybert')
-BASE_DIR = Path('text_processing')
+PYBERT_BASE_DIR = Path('src/stylegan_lib/text_processing/pybert')
+BASE_DIR = Path('src/stylegan_lib/text_processing')
 
 config = {
     'checkpoint_dir': PYBERT_BASE_DIR / "output/checkpoints",

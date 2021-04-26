@@ -1,4 +1,4 @@
-from utils.seed_generation import calculate_feature_components
+from .seed_generation import calculate_feature_components
 
 import numpy as np
 import copy

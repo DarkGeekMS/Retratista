@@ -1,5 +1,5 @@
 from flask import Flask
-from src.stylegan_lib.stylegan2_server import StyleGANServer
+from src.stylegan_lib import StyleGANServer
 
 # define Flask app
 app = Flask(__name__)
