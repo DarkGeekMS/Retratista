@@ -1,4 +1,4 @@
-![Retratista Logo](assets/logo.png)
+<div align=center><img width="50%" height="50%" src="assets/logo.png"/></div>
 
 --------------------------------------------------------------------------------
 
