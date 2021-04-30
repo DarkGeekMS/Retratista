@@ -39,7 +39,9 @@ class StyleGANServer:
         # load seed latent vectors
         self.latent_seed = np.load("src/stylegan_lib/models/initial_seed.npy")
         # initialize latent vector store
-        self.stored_latent = None
+        self.stored_latent, _ = generate_seed(
+            self.latent_seed, self.attributes_dir
+        )
 
     def process_text(self, sent):
         # extract attributes values from text
