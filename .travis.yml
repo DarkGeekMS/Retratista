@@ -1,1 +1,9 @@
 language: python
+
+python: "3.8"
+
+tags: true
+
+install:
+  - sudo apt-get update
+  - pip install -r requirements.txt

@@ -1,6 +1,8 @@
 <div align=center><img width="60%" height="60%" src="assets/logo.png"/></div>
 
 --------------------------------------------------------------------------------
+![Build Status](https://travis-ci.com/DarkGeekMS/Retratista.svg?token=xzMWZ6kxunjrsLmkSrpx&branch=main)
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 
 Retratista is a web-based application that enables the user to generate and manipulate a realistic human face from bare description.
 
