@@ -10,6 +10,10 @@ ADD . .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
+RUN apt install -y megatools
+
+RUN ./scripts/download_weights.sh
+
 EXPOSE 5000
 
 CMD python3 run.py production 5000
