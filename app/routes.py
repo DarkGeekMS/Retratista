@@ -44,7 +44,17 @@ def vgenerate():
 @app.route('/refine', methods=['POST'])
 def refine():
     if request.method == 'POST':
-        pass
+        # get required facial attribute and morph change
+        content = request.get_json()
+        type = content.get('type')
+        idx = content.get('index')
+        offset = content.get('offset')
+        # refine generated face with given offset
+        face_image = stgan_server.refine_face(type, idx, offset)
+        # encode output face image for response
+        encoded_face = get_response_image(face_image)
+        # return response JSON with output face
+        return jsonify({'face': encoded_face})
 
 
 @app.route('/rotate', methods=['POST'])
