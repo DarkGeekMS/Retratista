@@ -1,4 +1,6 @@
 from flask import jsonify, request
+import numpy as np
+
 from app import app, stgan_server, pose_server
 from .utils import get_response_image
 
@@ -25,7 +27,18 @@ def tgenerate():
 @app.route('/vgenerate', methods=['POST'])
 def vgenerate():
     if request.method == 'POST':
-        pass
+        # get required facial attributes values
+        content = request.get_json()
+        values = np.array(content.get('values'))
+        # generate target face and get its attributes values
+        face_image, values = stgan_server.generate_face(values)
+        # encode output face image for response
+        encoded_face = get_response_image(face_image)
+        # return response JSON with output face and its values
+        return jsonify({
+            'face': encoded_face,
+            'values': list(values)
+        })
 
 
 @app.route('/refine', methods=['POST'])
