@@ -22,8 +22,43 @@ Figure(1): Complete block diagram showing the whole system design and flow betwe
 Figure(2): Web application design.
 </div><br>
 
-## Installation
+## Usage
 
-```bash
-pip3 install -r requirements.txt
-```
+### Docker
+
+-   Make sure you installed :
+    -   Nvidia CUDA 11.1 + CUDNN8
+    -   Docker CE.
+    -   Docker Compose.
+    -   [Nvidia Docker V2](https://github.com/NVIDIA/nvidia-docker)
+
+-   Start application server using __docker-compose__ :
+    ```bash
+    bash scripts/docker_run.sh
+    ```
+
+### Native
+
+-   Make sure you installed :
+    -   Nvidia CUDA 11.1 + CUDNN8
+    -   python3 + python3-pip (Anaconda can be used as well).
+
+-   Install python dependencies :
+    ```bash
+    pip3 install -r requirements.txt
+    ```
+
+-   Download model weights :
+    ```bash
+    bash scripts/download_weights.sh
+    ```
+
+-   Run application server :
+    ```bash
+    python3 run.py production 5000
+    ```
+
+-   Run application server (in debug mode):
+    ```bash
+    python3 run.py development 5000
+    ```
