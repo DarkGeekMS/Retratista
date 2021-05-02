@@ -1,0 +1,12 @@
+version: "2.3"
+
+services:
+    interface:
+        image: retratista:latest
+        build: .
+        runtime: nvidia
+        ports:
+            - "5000:5000"
+        environment:
+            FLASK_ENV: production
+            NVIDIA_VISIBLE_DEVICES: all

@@ -7,6 +7,7 @@ numpy
 scipy
 requests
 Pillow
+pandas
 opencv-python
 opencv-contrib-python
 scikit-image
@@ -17,4 +18,4 @@ certifi
 joblib
 urllib3
 coloredlogs
-pytorch-transformers
+pytorch-transformers==1.2.0
