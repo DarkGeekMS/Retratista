@@ -60,4 +60,14 @@ def refine():
 @app.route('/rotate', methods=['POST'])
 def rotate():
     if request.method == 'POST':
-        pass
+        # get required angle of rotation
+        content = request.get_json()
+        angle = content.get('angle')
+        # get angle value on axis scale
+        offset = 4.0 * (angle / 90.0)
+        # rotate face with given angle
+        face_image = stgan_server.refine_face('morph', 10, offset)
+        # encode output face image for response
+        encoded_face = get_response_image(face_image)
+        # return response JSON with output face
+        return jsonify({'face': encoded_face})
