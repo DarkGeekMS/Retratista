@@ -1,6 +1,7 @@
 torch
 torchvision
 Flask
+Flask-CORS
 imageio-ffmpeg
 pyspng
 numpy

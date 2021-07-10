@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from flask_cors import cross_origin
 import numpy as np
 
 from app import app, stgan_server, pose_server
@@ -6,6 +7,7 @@ from .utils import get_response_image
 
 
 @app.route('/tgenerate', methods=['POST'])
+@cross_origin()
 def tgenerate():
     if request.method == 'POST':
         # get required face textual description
@@ -25,6 +27,7 @@ def tgenerate():
 
 
 @app.route('/vgenerate', methods=['POST'])
+@cross_origin()
 def vgenerate():
     if request.method == 'POST':
         # get required facial attributes values
@@ -42,6 +45,7 @@ def vgenerate():
 
 
 @app.route('/refine', methods=['POST'])
+@cross_origin()
 def refine():
     if request.method == 'POST':
         # get required facial attribute and morph change
@@ -58,6 +62,7 @@ def refine():
 
 
 @app.route('/rotate', methods=['POST'])
+@cross_origin()
 def rotate():
     if request.method == 'POST':
         # get required angle of rotation
