@@ -59,7 +59,7 @@ class StyleGANServer:
             self.latent_seed, self.attributes_dir
         )
         # perform latent manipulation
-        self.stored_latent = manipulate_latent(
+        self.stored_latent, values = manipulate_latent(
             latent_vector, image_logits, values,
             self.attributes_dir, recalculate=self.recalc_logits
         )

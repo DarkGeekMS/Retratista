@@ -26,4 +26,7 @@ def manipulate_latent(seed_latent_vec, seed_logits, text_logits, feature_directi
             seed_logits = calculate_feature_components(final_latent_vec, feature_directions)
             # re-differentiate predicted logits
             logits_diff = differentiate_logits(text_logits, seed_logits)
-    return final_latent_vec
+    # re-calculate final components for all features through projection
+    final_seed_logits = calculate_feature_components(final_latent_vec, feature_directions)
+    # return final latent vector and logits
+    return final_latent_vec, final_seed_logits
