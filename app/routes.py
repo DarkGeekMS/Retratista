@@ -16,7 +16,7 @@ def tgenerate():
         # perform text processing
         values = stgan_server.process_text(sent)
         # generate target face and get its attributes values
-        face_image, values = stgan_server.generate_face(values)
+        face_image, values = stgan_server.generate_face(values, rescale=False)
         # encode output face image for response
         encoded_face = get_response_image(face_image)
         # return response JSON with output face and its values
@@ -34,7 +34,7 @@ def vgenerate():
         content = request.get_json()
         values = np.array(content.get('values'))
         # generate target face and get its attributes values
-        face_image, values = stgan_server.generate_face(values)
+        face_image, values = stgan_server.generate_face(values, rescale=True)
         # encode output face image for response
         encoded_face = get_response_image(face_image)
         # return response JSON with output face and its values

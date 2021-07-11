@@ -8,7 +8,7 @@ resp = requests.post(
     "http://localhost:5000/refine", json={
         "type"  : "attribute",
         "index" : 7,
-        "offset" : -4
+        "offset" : -0.5
     }
 )
 

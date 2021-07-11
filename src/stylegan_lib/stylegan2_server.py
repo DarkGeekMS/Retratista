@@ -52,8 +52,16 @@ class StyleGANServer:
         # return extracted logits
         return text_logits
 
-    def generate_face(self, values):
+    def generate_face(self, values, rescale=False):
         # generate face from attributes values
+        # re-scale input attributes values
+        if rescale:
+            values = np.array(
+                [
+                    (logit * self.axes_range * 2.0) - self.axes_range 
+                    if logit != -1.0 else -100.0 for logit in values
+                ]
+            )
         # generate initial latent seed
         latent_vector, image_logits = generate_seed(
             self.latent_seed, self.attributes_dir
@@ -74,11 +82,15 @@ class StyleGANServer:
         face_image[face_image > 1.0] = 1.0
         face_image = (face_image + 1.0) * 127.5
         face_image = face_image.astype(np.uint8)
+        # re-scale the final attributes values between 0 and 1
+        values = (values + self.axes_range) / (2.0 * self.axes_range) 
         # return final face image and corresponding attributes values
         return face_image, values
 
     def refine_face(self, type, idx, offset):
         # refine generated face using given attributes (or morph) offsets
+        # re-scale the attribute offset
+        offset = 2.0 * self.axes_range * offset
         # re-adjust the stored latent vector
         if type == 'attribute':
             self.stored_latent += offset * self.attributes_dir[idx]
