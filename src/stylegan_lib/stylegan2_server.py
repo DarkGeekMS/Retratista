@@ -1,6 +1,6 @@
 from .stylegan2_networks import SynthesisNetwork
 from .text_processing.inference import BERTMultiLabelClassifier
-from .utils import generate_seed, manipulate_latent, postprocess_text_logits
+from .utils import calculate_feature_components, generate_seed, manipulate_latent, postprocess_text_logits
 
 import torch
 import numpy as np
@@ -34,13 +34,13 @@ class StyleGANServer:
         )
         self.stylegan2_generator.to(self.device)
         # load feature directions
-        self.attributes_dir = np.load("src/stylegan_lib/directions/attributes_directions.npy")
-        self.morph_dir = np.load("src/stylegan_lib/directions/morph_directions.npy")
+        self.gen_dir = np.load("src/stylegan_lib/directions/gen_directions.npy")
+        self.refine_dir = np.load("src/stylegan_lib/directions/refine_directions.npy")
         # load seed latent vectors
         self.latent_seed = np.load("src/stylegan_lib/models/initial_seed.npy")
         # initialize latent vector store
-        self.stored_latent, _ = generate_seed(
-            self.latent_seed, self.attributes_dir
+        self.stored_latent, self.stored_values = generate_seed(
+            self.latent_seed, self.refine_dir
         )
 
     def process_text(self, sent):
@@ -64,12 +64,12 @@ class StyleGANServer:
             )
         # generate initial latent seed
         latent_vector, image_logits = generate_seed(
-            self.latent_seed, self.attributes_dir
+            self.latent_seed, self.gen_dir
         )
         # perform latent manipulation
-        self.stored_latent, values = manipulate_latent(
+        self.stored_latent = manipulate_latent(
             latent_vector, image_logits, values,
-            self.attributes_dir, recalculate=self.recalc_logits
+            self.gen_dir, recalculate=self.recalc_logits
         )
         w_vector = np.expand_dims(self.stored_latent, axis=0)
         # convert resultant latent vector into torch tensor
@@ -82,22 +82,27 @@ class StyleGANServer:
         face_image[face_image > 1.0] = 1.0
         face_image = (face_image + 1.0) * 127.5
         face_image = face_image.astype(np.uint8)
+        # re-calculate final components for all features through projection
+        self.stored_values = calculate_feature_components(self.stored_latent, self.refine_dir)
         # re-scale the final attributes values between 0 and 1
-        values = (values + self.axes_range) / (2.0 * self.axes_range) 
+        values = (self.stored_values + self.axes_range) / (2.0 * self.axes_range) 
         # return final face image and corresponding attributes values
         return face_image, values
 
-    def refine_face(self, type, idx, offset):
+    def refine_face(self, values):
         # refine generated face using given attributes (or morph) offsets
         # re-scale the attribute offset
-        offset = 2.0 * self.axes_range * offset
+        values = np.array(
+                [
+                    (logit * self.axes_range * 2.0) - self.axes_range 
+                    if logit != -1.0 else -100.0 for logit in values
+                ]
+            )
         # re-adjust the stored latent vector
-        if type == 'attribute':
-            self.stored_latent += offset * self.attributes_dir[idx]
-        elif type == 'morph':
-            self.stored_latent += offset * self.morph_dir[idx]
-        else:
-            return
+        self.stored_latent = manipulate_latent(
+            self.stored_latent, self.stored_values, values,
+            self.refine_dir, recalculate=self.recalc_logits
+        )
         w_vector = np.expand_dims(self.stored_latent, axis=0)
         # convert resultant latent vector into torch tensor
         w_tensor = torch.tensor(w_vector, device=self.device)
@@ -109,5 +114,9 @@ class StyleGANServer:
         face_image[face_image > 1.0] = 1.0
         face_image = (face_image + 1.0) * 127.5
         face_image = face_image.astype(np.uint8)
-        # return refined face image
-        return face_image
+        # re-calculate final components for all features through projection
+        self.stored_values = calculate_feature_components(self.stored_latent, self.refine_dir)
+        # re-scale the final attributes values between 0 and 1
+        values = (self.stored_values + self.axes_range) / (2.0 * self.axes_range) 
+        # return refined face image and corresponding attributes values
+        return face_image, values

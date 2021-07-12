@@ -32,7 +32,7 @@ def vgenerate():
     if request.method == 'POST':
         # get required facial attributes values
         content = request.get_json()
-        values = np.array(content.get('values'))
+        values = np.array(content.get('values')[:32])
         # generate target face and get its attributes values
         face_image, values = stgan_server.generate_face(values, rescale=True)
         # encode output face image for response
@@ -50,29 +50,21 @@ def refine():
     if request.method == 'POST':
         # get required facial attribute and morph change
         content = request.get_json()
-        type = content.get('type')
-        idx = content.get('index')
-        offset = content.get('offset')
+        values = np.array(content.get('values'))
         # refine generated face with given offset
-        face_image = stgan_server.refine_face(type, idx, offset)
+        face_image, values = stgan_server.refine_face(values)
         # encode output face image for response
         encoded_face = get_response_image(face_image)
         # return response JSON with output face
-        return jsonify({'face': encoded_face})
+        return jsonify({
+            'face': encoded_face,
+            'values': list(values)
+        })
 
 
 @app.route('/rotate', methods=['POST'])
 @cross_origin()
 def rotate():
     if request.method == 'POST':
-        # get required angle of rotation
-        content = request.get_json()
-        angle = content.get('angle')
-        # get angle value on axis scale
-        offset = 4.0 * (angle / 90.0)
-        # rotate face with given angle
-        face_image = stgan_server.refine_face('morph', 10, offset)
-        # encode output face image for response
-        encoded_face = get_response_image(face_image)
-        # return response JSON with output face
-        return jsonify({'face': encoded_face})
+        # TODO : complete 'rotate' endpoint
+        pass
