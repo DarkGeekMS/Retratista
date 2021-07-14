@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Monoton');
+
+$lightColor: #006ac7;
+$darkColor: #9e8960;
+
+.routerhead {
+  // display: inline;
+  // font-size: 2.5vw;
+  text-transform: uppercase;
+  color: $darkColor;
+  // margin: 10vw 0 0 0;
+  
+  // @media (min-width: 700px) {
+  //   font-size: 3vw;
+  // }
+  
+  // @media (min-width: 1400px) {
+  //   font-size: 3vw;
+  // }
+}
+
+
+.subrouterhead {
+  // display: inline;
+  // font-size: 2.5vw;
+  text-transform: uppercase;
+  color: $darkColor;
+  // margin: 10vw 0 0 0;
+  
+  // @media (min-width: 700px) {
+  //   font-size: 3vw;
+  // }
+  
+  // @media (min-width: 1400px) {
+  //   font-size: 3vw;
+  // }
+}
+
+.headfont{
+  font-family: "Monoton", Helvetica, sans-serif;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  letter-spacing: 0.5vw;
+  word-spacing: 1.5vw;
+
+}
+
+.subheadfont{
+  font-family: "Monoton", Helvetica, sans-serif;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  // letter-spacing: 0.5vw;
+  word-spacing: 0.3vw;
+  margin-top: 20px;
+  font-size: 1.3vw;
+  
+
+}
+
+@supports (-webkit-background-clip: text) {
+	.routerhead {
+		color: transparent;
+		background: linear-gradient(7deg, $lightColor 50%, $darkColor 0);
+		-webkit-background-clip: text;
+	}
+}
+
+@supports (-webkit-background-clip: text) {
+	.subrouterhead {
+		color: transparent;
+		background: linear-gradient(45deg, $lightColor 50%, $darkColor 0);
+		-webkit-background-clip: text;
+	}
+}

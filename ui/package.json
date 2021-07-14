@@ -1,0 +1,45 @@
+{
+  "name": "vue-argon-design-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "aos": "^2.3.4",
+    "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
+    "bootstrap-vue": "^2.0.4",
+    "flatpickr": "^4.5.1",
+    "jquery": "^3.6.0",
+    "nouislider": "^11.1.0",
+    "particle-bg": "^0.5.0",
+    "particles-bg-vue": "^1.3.5",
+    "register-service-worker": "^1.5.2",
+    "vue": "^2.6.6",
+    "vue-affix": "^0.5.2",
+    "vue-aos": "^2.1.0",
+    "vue-axios": "^3.2.4",
+    "vue-flatpickr-component": "^8.1.1",
+    "vue-lazyload": "^1.2.6",
+    "vue-router": "^3.0.2",
+    "vue-speech": "^0.1.0",
+    "vue-sticky-element": "^1.1.2",
+    "vue-sticky-js": "0.0.4",
+    "vue-sweetalert2": "^4.3.1",
+    "vue2-transitions": "^0.2.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-pwa": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "compass-mixins": "^0.12.10",
+    "expose-loader": "^2.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.6"
+  }
+}
