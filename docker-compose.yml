@@ -1,12 +1,21 @@
 version: "2.3"
 
 services:
-    interface:
-        image: retratista:latest
-        build: .
+    stylegan_server:
+        image: retratista:stylegan_server
+        build:
+            context: .
+            dockerfile: ./docker/stylegan_server/Dockerfile
         runtime: nvidia
         ports:
             - "5000:5000"
         environment:
             FLASK_ENV: production
             NVIDIA_VISIBLE_DEVICES: all
+    ui:
+        image: retratista:ui
+        build:
+            context: .
+            dockerfile: ./docker/ui/Dockerfile
+        ports:
+            - "8080:8080"
