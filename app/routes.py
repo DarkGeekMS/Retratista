@@ -66,5 +66,12 @@ def refine():
 @cross_origin()
 def rotate():
     if request.method == 'POST':
-        # TODO : complete 'rotate' endpoint
-        pass
+        # get required angle of rotation
+        content = request.get_json()
+        angle = content.get('angle')
+        # rotate generated face with given angle
+        face_image = stgan_server.rotate_face(angle)
+        # encode output face image for response
+        encoded_face = get_response_image(face_image)
+        # return response JSON with output face
+        return jsonify({'face': encoded_face})

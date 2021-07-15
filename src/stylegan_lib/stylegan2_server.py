@@ -36,6 +36,9 @@ class StyleGANServer:
         # load feature directions
         self.gen_dir = np.load("src/stylegan_lib/directions/gen_directions.npy")
         self.refine_dir = np.load("src/stylegan_lib/directions/refine_directions.npy")
+        self.pose_dir = np.expand_dims(
+            np.load("src/stylegan_lib/directions/pose_directions.npy"), axis=0
+        )
         # load seed latent vectors
         self.latent_seed = np.load("src/stylegan_lib/models/initial_seed.npy")
         # initialize latent vector store
@@ -120,3 +123,27 @@ class StyleGANServer:
         values = (self.stored_values + self.axes_range) / (2.0 * self.axes_range) 
         # return refined face image and corresponding attributes values
         return face_image, values
+
+    def rotate_face(self, angle):
+        # rotate generated face using given angle
+        # re-scale given angle to range [-4, 4]
+        angle = angle / (90.0 / 4.0)
+        # get current face angle
+        curr_angle = calculate_feature_components(self.stored_latent, self.pose_dir)[0]
+        # differentiate face angle
+        diff_angle = angle - curr_angle
+        # move latent vector along pose direction
+        w_vector = self.stored_latent + diff_angle * self.pose_dir[0]
+        w_vector = np.expand_dims(w_vector, axis=0)
+        # convert resultant latent vector into torch tensor
+        w_tensor = torch.tensor(w_vector, device=self.device)
+        # run StyleGAN2 synthesis network on final tensor
+        face_image = self.stylegan2_generator(w_tensor, noise_mode='const')
+        # post-process refined face image
+        face_image = face_image.permute(0, 2, 3, 1).cpu().detach().numpy()[0]
+        face_image[face_image < -1.0] = -1.0
+        face_image[face_image > 1.0] = 1.0
+        face_image = (face_image + 1.0) * 127.5
+        face_image = face_image.astype(np.uint8)
+        # return rotated face image
+        return face_image
