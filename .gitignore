@@ -135,7 +135,9 @@ _cudacache
 
 # weights files
 models/
+!src/pose_lib/models
 pytorch_model.bin
+train.configs
 
 # output files
 Pipfile
