@@ -13,8 +13,5 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # define StyleGAN2 server
 stgan_server = StyleGANServer()
 
-# TODO: define pose server
-pose_server = None
-
 # import app routes
-from app import routes
+from app.generator import routes

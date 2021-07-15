@@ -1,6 +1,6 @@
 import os
 import sys
-from app import app
+from app.rotator import app
 
 
 def run(env, port_num):

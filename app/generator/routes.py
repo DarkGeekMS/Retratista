@@ -2,8 +2,8 @@ from flask import jsonify, request
 from flask_cors import cross_origin
 import numpy as np
 
-from app import app, stgan_server, pose_server
-from .utils import get_response_image
+from app.generator import app, stgan_server
+from app.utils import get_response_image
 
 
 @app.route('/tgenerate', methods=['POST'])

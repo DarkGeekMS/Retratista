@@ -25,4 +25,4 @@ RUN ./scripts/download_weights.sh
 
 EXPOSE 5000
 
-CMD python3 run.py production 5000
+CMD python3 run_generator.py production 5000
