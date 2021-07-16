@@ -34,7 +34,9 @@ Figure(2): Web application design.
 
 -   Start application server using __docker-compose__ :
     ```bash
-    bash scripts/docker_run.sh
+    bash scripts/docker_run.sh base # to run stylegan2 server with ui
+    bash scripts/docker_run.sh pose # to run pose server only
+    bash scripts/docker_run.sh      # to run both servers with ui
     ```
 
 ### Native
@@ -50,15 +52,24 @@ Figure(2): Web application design.
 
 -   Download model weights :
     ```bash
-    bash scripts/download_weights.sh
+    bash scripts/download_weights_gen.sh # to download weights for stylegan2 server
+    bash scripts/download_weights_rot.sh # to download weights for pose server
     ```
 
--   Run application server :
+-   Run application stylegan2 server (port 5000) :
     ```bash
-    python3 run.py production 5000
+    python3 run_generator.py production 5000 # production mode
+    python3 run_generator.py development 5000 # debug mode
     ```
 
--   Run application server (in debug mode):
+-   Run application pose server (port 5001) :
     ```bash
-    python3 run.py development 5000
+    python3 run_rotator.py production 5001 # production mode
+    python3 run_rotator.py development 5001 # debug mode
+    ```
+
+-   Build and run application ui (port 8080) :
+    ```bash
+    cd ui
+    bash build_ui.sh
     ```

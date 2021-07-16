@@ -9,4 +9,5 @@ install:
 
 script:
   - pip3 install -r requirements.txt
-  - bash scripts/download_weights.sh
+  - bash scripts/download_weights_gen.sh
+  - bash scripts/download_weights_rot.sh
