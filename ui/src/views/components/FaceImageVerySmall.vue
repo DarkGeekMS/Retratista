@@ -8,7 +8,7 @@
                                  class="rounded-circle img-fluid shadow shadow-lg--hover"
                                  >
                     <img 
-                    v-bind:src="'data:image/jpeg;base64,'+face" v-if="done"
+                    v-bind:src="'data:image/jpeg;base64,'+faceimg" v-if="done"
                                  class="rounded-circle img-fluid shadow shadow-lg--hover"
                                  >
 
@@ -46,16 +46,26 @@ export default {
     }
   },
   props: {
-    angle: Number,  
+    angle: Number,
+    lastGeneratedAngle: Number,  
     },
 
   mounted(){
-      axios.post(this.$IP + 'rotate', {angle: this.angle})
-            .then(function( response ){
-            this.faceimg = response.data.face;
-            this.done = true;
-            }.bind(this));
-        
+  },
+  watch: { 
+    lastGeneratedAngle(newVal, oldVal) {
+        if (newVal == this.angle){
+            console.log(this.angle)
+            axios.post(this.$IP + 'rotate', {angle: this.angle})
+                .then(function( response ){
+                    console.log(response)
+                    console.log(response.data)
+                this.faceimg = response.data.face;
+                this.done = true;
+                this.$emit('done', this.angle);
+                }.bind(this));
+        }
+    }
   }
 
 };

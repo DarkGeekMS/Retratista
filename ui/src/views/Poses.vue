@@ -23,16 +23,16 @@
                             <!-- image -->
                             <face-image :poses="true" :face="faceimg"></face-image>
                             <div style="display: flex;">
-                              <face-image-very-small :angle="-70"></face-image-very-small>
-                              <face-image-very-small :angle="-50"></face-image-very-small>
-                              <face-image-very-small :angle="-30"></face-image-very-small>
-                              <face-image-very-small :angle="-10"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-200"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-150"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-100"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-50"></face-image-very-small>
                             </div>
                             <div style="display: flex;">
-                              <face-image-very-small :angle="10"></face-image-very-small>
-                              <face-image-very-small :angle="30"></face-image-very-small>
-                              <face-image-very-small :angle="50"></face-image-very-small>
-                              <face-image-very-small :angle="70"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="0"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="50"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="100"></face-image-very-small>
+                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="150"></face-image-very-small>
                             </div>
 
                         </div>
@@ -62,11 +62,23 @@ export default {
         generateClicked: false,
         done: true,
         firstGen: false,
+        lastGeneratedAngle: -90
       }
     },
 
   props:{
       faceimg: String,
+  },
+  methods: {
+    incAngle(angle) {
+        this.lastGeneratedAngle = angle + 50;
+        console.log(angle)
+        }
+    },
+  mounted(){
+    this.$nextTick(() => {
+        this.lastGeneratedAngle = -200;
+    })
   },
   
 
