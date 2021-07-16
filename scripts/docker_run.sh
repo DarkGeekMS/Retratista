@@ -1,3 +1,9 @@
 # run application using docker compose
 
-docker-compose up --build
+if [ $1 == "base" ]; then
+    docker-compose up --build stylegan_server ui
+elif [ $1 == "pose" ]; then
+    docker-compose up --build pose_server
+else
+    docker-compose up --build 
+fi

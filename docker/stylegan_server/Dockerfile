@@ -21,7 +21,7 @@ COPY . /retratista
 
 RUN pip3 install -r requirements.txt
 
-RUN ./scripts/download_weights.sh
+RUN ./scripts/download_weights_gen.sh
 
 EXPOSE 5000
 

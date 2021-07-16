@@ -1,4 +1,4 @@
-# download networks weights and seed data
+# download networks weights and seed data (for StyleGAN2 Server)
 
 cd src/stylegan_lib
 

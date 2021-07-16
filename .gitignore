@@ -138,6 +138,8 @@ models/
 !src/pose_lib/models
 pytorch_model.bin
 train.configs
+src/pose_lib/checkpoints
+*.tar
 
 # output files
 Pipfile

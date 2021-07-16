@@ -19,3 +19,14 @@ services:
             dockerfile: ./docker/ui/Dockerfile
         ports:
             - "8080:8080"
+    pose_server:
+        image: retratista:pose_server
+        build:
+            context: .
+            dockerfile: ./docker/pose_server/Dockerfile
+        runtime: nvidia
+        ports:
+            - "5001:5001"
+        environment:
+            FLASK_ENV: production
+            NVIDIA_VISIBLE_DEVICES: all
