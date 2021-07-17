@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.0.1-cuda10.0-cudnn7-devel
+FROM pytorch/pytorch:1.2-cuda10.0-cudnn7-devel
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -20,7 +20,7 @@ WORKDIR /retratista
 COPY . /retratista
 
 RUN pip install Flask Flask-CORS numpy scipy matplotlib opencv-python \
-                torchvision==0.4 scikit-image dominate dill face-alignment==1.0.0 cython tensorboard future
+                scikit-image dominate dill face-alignment==1.0.0 cython tensorboard future
 
 RUN pip install neural_renderer_pytorch
 
