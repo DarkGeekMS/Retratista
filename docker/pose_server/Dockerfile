@@ -20,7 +20,8 @@ WORKDIR /retratista
 COPY . /retratista
 
 RUN pip install Flask Flask-CORS numpy scipy matplotlib opencv-python \
-                scikit-image dominate dill face-alignment==1.0.0 cython tensorboard future
+                torchvision==0.4 scikit-image dominate dill face-alignment==1.0.0 \
+                cython tensorboard future
 
 RUN pip install neural_renderer_pytorch
 
