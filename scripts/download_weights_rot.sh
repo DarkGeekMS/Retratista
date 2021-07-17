@@ -11,25 +11,8 @@ cd train.configs
 if [ ! -f keypoints_sim.npy ]; then
     megadl 'https://mega.nz/#!aJxmjSrZ!0Z3F0LWshPPXZl9RFzXcCPQ35nmFodpHyA1YfbfXUdg'
 fi
-
-if [ ! -f param_all_norm_val.pkl ]; then
-    megadl 'https://mega.nz/#!3BBF0CzR!6isKcTLdUwjon5qJBZaVZfcd9KAXmwdRnfMNAUEcXQo'
-fi
-
-if [ ! -f param_all_norm.pkl ]; then
-    megadl 'https://mega.nz/#!aF5EEQzT!fICPDvwd14Mqp4958xxgbaGo8cl8m6fc28LDb2wqNmM'
-fi
-
 if [ ! -f param_whitening.pkl ]; then
     megadl 'https://mega.nz/#!HZYDHQBA!5uHRos0ZH8CR03jUpCirU_JzuBRpy1MWpeo4t4Btzq4'
-fi
-
-if [ ! -f train_aug_120x120.list.train ]; then
-    megadl 'https://mega.nz/#!WYpkUYCQ!0Eg5mQmr7B3VGuU9v69_sadcMFRUxRHhnFvD6utaVeI'
-fi
-
-if [ ! -f train_aug_120x120.list.val ]; then
-    megadl 'https://mega.nz/#!SVxWDagb!gpl8npJUly0ozQvKPzTvlhvSggJZYIYlVDYZpTe-1N0'
 fi
 
 if [ ! -f u_exp.npy ]; then

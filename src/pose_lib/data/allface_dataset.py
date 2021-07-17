@@ -5,9 +5,9 @@ from PIL import Image
 import skimage.transform as trans
 import cv2
 import torch
-from data import dataset_info
-from data.base_dataset import BaseDataset
-import util.util as util
+from ..data import dataset_info
+from ..data.base_dataset import BaseDataset
+import ..util.util as util
 
 dataset_info = dataset_info()
 

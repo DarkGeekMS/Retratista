@@ -19,10 +19,12 @@ WORKDIR /retratista
 
 COPY . /retratista
 
+RUN pip install Flask Flask-CORS numpy scipy matplotlib opencv-python \
+                torchvision==0.4 scikit-image dominate dill face-alignment==1.0.0 cython tensorboard future
+
 RUN pip install neural_renderer_pytorch
 
-RUN pip install Flask Flask-CORS numpy scipy matplotlib opencv-python \
-                torchvision==0.2.2 scikit-image dominate dill face-alignment==1.0.0
+RUN cd ./src/pose_lib/utils/cython && python setup.py build_ext -i && cd ../../../.. 
 
 RUN ./scripts/download_weights_rot.sh
 

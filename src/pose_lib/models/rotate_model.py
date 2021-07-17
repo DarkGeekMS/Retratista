@@ -1,6 +1,6 @@
 import torch
-import models.networks as networks
-import util.util as util
+import ..models.networks as networks
+from ..util import util
 import os
 
 

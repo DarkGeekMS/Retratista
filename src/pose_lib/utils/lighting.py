@@ -5,8 +5,8 @@ import sys
 
 sys.path.append('../')
 import numpy as np
-from utils import render
-from utils.cython import mesh_core_cython
+from . import render
+from .cython import mesh_core_cython
 
 _norm = lambda arr: arr / np.sqrt(np.sum(arr ** 2, axis=1))[:, None]
 

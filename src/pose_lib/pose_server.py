@@ -12,7 +12,7 @@ The pipeline of 3DDFA prediction: given one image, predict the 3d face vertices,
 
 import torch
 import torchvision.transforms as transforms
-import mobilenet_v1
+from . import mobilenet_v1
 import numpy as np
 import cv2
 import os
@@ -20,32 +20,32 @@ import math
 from tqdm import tqdm
 import time
 import face_alignment
-from utils.ddfa import ToTensorGjz, NormalizeGjz, str2bool
+from .utils.ddfa import ToTensorGjz, NormalizeGjz, str2bool
 import scipy.io as sio
-from utils.inference import get_suffix, parse_roi_box_from_landmark, crop_img, predict_68pts, dump_to_ply, dump_vertex, \
+from .utils.inference import get_suffix, parse_roi_box_from_landmark, crop_img, predict_68pts, dump_to_ply, dump_vertex, \
     draw_landmarks, predict_dense, parse_roi_box_from_bbox, get_colors, write_obj_with_colors, get_aligned_param, get_5lmk_from_68lmk
-from utils.cv_plot import plot_pose_box
-from utils.estimate_pose import parse_pose
-from utils.params import param_mean, param_std
-from utils.render import get_depths_image, cget_depths_image, cpncc, crender_colors
-from utils.paf import gen_img_paf
+from .utils.cv_plot import plot_pose_box
+from .utils.estimate_pose import parse_pose
+from .utils.params import param_mean, param_std
+from .utils.render import get_depths_image, cget_depths_image, cpncc, crender_colors
+from .utils.paf import gen_img_paf
 import argparse
 import torch.backends.cudnn as cudnn
 import torch.multiprocessing as multiprocessing
-from models.networks.sync_batchnorm import DataParallelWithCallback
+from .models.networks.sync_batchnorm import DataParallelWithCallback
 import sys
-import data
-from data.data_utils import get_multipose_test_input
-from util.iter_counter import IterationCounter
-from options.test_options import TestOptions
-from models.test_model import TestModel
-from util.visualizer import Visualizer
-from util import html, util
+from . import data
+from .data.data_utils import get_multipose_test_input
+from .util.iter_counter import IterationCounter
+from .options.test_options import TestOptions
+from .models.test_model import TestModel
+from .util.visualizer import Visualizer
+from .util import html, util
 from torch.multiprocessing import Process, Queue, Pool
-from data.data_utils import data_prefetcher
+from .data.data_utils import data_prefetcher
 from skimage import transform as trans
 import time
-from models.networks.rotate_render import TestRender
+from .models.networks.rotate_render import TestRender
 import math
 import matplotlib.pyplot as plt
 
