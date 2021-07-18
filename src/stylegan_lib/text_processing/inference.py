@@ -3,13 +3,14 @@ import pickle
 import numpy as np
 from transformers import DistilBertTokenizer, AlbertTokenizer, RobertaTokenizer, BertTokenizer
 from .model import BertRegressor
+
 class TextProcessor():
     def __init__(self, architecture, checkpoint_path = None):
         # device
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         # model
         if checkpoint_path is None:
-            checkpoint_path = 'Bert/checkpoints/' + architecture + '.pth'
+            checkpoint_path = 'src/stylegan_lib/text_processing/checkpoints/' + architecture + '.pth'
 
         self.model = BertRegressor(architecture).to(self.device)
         self.model.load_state_dict(torch.load(checkpoint_path, self.device)) 
@@ -28,7 +29,7 @@ class TextProcessor():
             self.tokenizer = RobertaTokenizer.from_pretrained('roberta-base') 
 
         # normalization post processing details
-        with open('Bert/attributes_max.pkl', 'rb') as f:
+        with open('src/stylegan_lib/text_processing/attributes_max.pkl', 'rb') as f:
             self.attributes_max_values = pickle.load(f)
         self.zero_start_attributes = [
             'Arched_Eyebrows',
@@ -73,7 +74,6 @@ class TextProcessor():
             'Wearing_SunGlasses'
         ]
 
-    
     def make_logits(self, logits):
         all_logits_mod_list = []
         for log in logits:
@@ -136,8 +136,6 @@ class TextProcessor():
 
         return all_logits_mod_list
 
-    
-            
     def predict(self, sentence):
         # encode the sentence
         encodings = self.tokenizer([sentence], truncation=True, padding=True)
@@ -146,9 +144,3 @@ class TextProcessor():
         logits = self.model(input_ids, attention_mask=attention_mask).cpu().data.numpy()
         logits = self.make_logits(logits)
         return logits
-
-# processor = TextProcessor('./checkpoints/distilbert-base-uncased.pkl', 'distilbert-base-uncased')
-# processor.predict('a guy with long hair and sunglasses.')
-
-
-

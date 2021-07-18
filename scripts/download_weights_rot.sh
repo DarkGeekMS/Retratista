@@ -11,6 +11,7 @@ cd train.configs
 if [ ! -f keypoints_sim.npy ]; then
     megadl 'https://mega.nz/#!aJxmjSrZ!0Z3F0LWshPPXZl9RFzXcCPQ35nmFodpHyA1YfbfXUdg'
 fi
+
 if [ ! -f param_whitening.pkl ]; then
     megadl 'https://mega.nz/#!HZYDHQBA!5uHRos0ZH8CR03jUpCirU_JzuBRpy1MWpeo4t4Btzq4'
 fi

@@ -19,4 +19,5 @@ certifi
 joblib
 urllib3
 coloredlogs
+transformers
 pytorch-transformers==1.2.0

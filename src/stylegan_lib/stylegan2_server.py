@@ -1,5 +1,5 @@
 from .stylegan2_networks import SynthesisNetwork
-from .text_processing.inference import BERTMultiLabelClassifier
+from .text_processing.inference import TextProcessor
 from .utils import calculate_feature_components, generate_seed, manipulate_latent, postprocess_text_logits
 
 import torch
@@ -24,7 +24,7 @@ class StyleGANServer:
         self.axes_range = 4.0
         self.recalc_logits = True
         # load BERT multi-label classifier
-        self.bert_model = BERTMultiLabelClassifier()
+        self.bert_model = TextProcessor('distilbert-base-uncased')
         # load StyleGAN2 synthesis network
         self.stylegan2_generator = SynthesisNetwork(
             w_dim=512, img_resolution=1024, img_channels=3
