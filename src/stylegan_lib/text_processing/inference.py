@@ -13,7 +13,7 @@ class TextProcessor():
         if checkpoint_path is None:
             checkpoint_path = 'src/stylegan_lib/text_processing/checkpoints/' + architecture + '.pth'
 
-        self.model = BertRegressor(architecture).to(self.device)
+        self.model = BertRegressor(architecture, from_pretrained=False).to(self.device)
         self.model.load_state_dict(torch.load(checkpoint_path, self.device)) 
         # model.load_state_dict(copy.deepcopy(torch.load("model_state.pth",device)))
         # tokenizer
@@ -129,4 +129,4 @@ class TextProcessor():
         attention_mask = torch.tensor(encodings['attention_mask']).to(self.device)
         logits = self.model(input_ids, attention_mask=attention_mask).cpu().data.numpy()
         logits = self.make_logits(logits)
-        return logits
+        return logits[0]
