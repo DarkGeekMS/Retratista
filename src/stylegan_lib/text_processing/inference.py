@@ -4,6 +4,7 @@ import numpy as np
 from transformers import DistilBertTokenizer, AlbertTokenizer, RobertaTokenizer, BertTokenizer
 from .model import BertRegressor
 
+
 class TextProcessor():
     def __init__(self, architecture, checkpoint_path = None):
         # device
