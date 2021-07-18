@@ -33,10 +33,8 @@ class TextProcessor():
         with open('src/stylegan_lib/text_processing/attributes_max.pkl', 'rb') as f:
             self.attributes_max_values = pickle.load(f)
         self.zero_start_attributes = [
-            'Arched_Eyebrows',
             'Bushy_Eyebrows',
             'Straight_Hair',
-            'Mustache',
             'Beard',
             'Skin_Color',
             'Chubby',
@@ -58,8 +56,6 @@ class TextProcessor():
             'Bald',
             'Bangs',
             'Hair_Length',
-            'Goatee',
-            'Sideburns',
             'Asian',
             'Bags_Under_Eyes',
             'Black_Eyes',
@@ -79,13 +75,7 @@ class TextProcessor():
         all_logits_mod_list = []
         for log in logits:
             attributes = list(self.attributes_max_values.keys())
-
             logits_mod = {attributes[i]: log[i] for i in range(len(attributes))} 
-
-            # print()
-            # print()
-            # for key in logits_mod.keys():
-            #     print(key, ':', logits_mod[key])
 
             # round on glasses
             logits_mod['Wearing_SightGlasses'] = np.round(logits_mod['Wearing_SightGlasses'])
@@ -130,12 +120,7 @@ class TextProcessor():
             logits_mod_list = list(logits_mod.values())
             all_logits_mod_list.append(logits_mod_list)
 
-        # print()
-        # print()
-        # for key in logits_mod.keys():
-        #     print(key, ':', logits_mod[key])
-
-        return all_logits_mod_list
+        return all_logits_mod_list    
 
     def predict(self, sentence):
         # encode the sentence
