@@ -2,10 +2,10 @@ import sys
 import argparse
 import math
 import os
-from util import util
+from ..util import util
 import torch
-import models
-import data
+from .. import models
+from .. import data
 import pickle
 
 
@@ -18,7 +18,7 @@ class BaseOptions():
         parser.add_argument('--name', type=str, default='mesh2face', help='name of the experiment. It decides where to store samples and models')
 
         parser.add_argument('--gpu_ids', type=str, default='0', help='useless')
-        parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
+        parser.add_argument('--checkpoints_dir', type=str, default='src/pose_lib/checkpoints', help='models are saved here')
         parser.add_argument('--model', type=str, default='rotate', help='which model to use, rotate|rotatespade')
         parser.add_argument('--trainer', type=str, default='rotate', help='which trainer to use, rotate|rotatespade')
         parser.add_argument('--norm_G', type=str, default='spectralinstance', help='instance normalization or batch normalization')
@@ -80,11 +80,6 @@ class BaseOptions():
 
         # get the basic options
         opt, unknown = parser.parse_known_args()
-
-        # modify model-related parser options
-        model_name = opt.model
-        model_option_setter = models.get_option_setter(model_name)
-        parser = model_option_setter(parser, self.isTrain)
 
         # modify dataset-related parser options
         dataset_mode = opt.dataset_mode

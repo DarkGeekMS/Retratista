@@ -1,7 +1,7 @@
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 import cv2
-from utils.inference import crop_img, parse_roi_box_from_landmark
+from .utils.inference import crop_img, parse_roi_box_from_landmark
 
 
 def cv2_loader(img_str):
