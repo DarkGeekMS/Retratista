@@ -45,7 +45,7 @@ def postprocess_text_logits(sent_pred, axes_range):
     # [17] eye width attribute
     proc_pred[17] = sent_pred[18]
     # [18,19,20] eye color attributes
-    if sent_pred[23] != -1:
+    if sent_pred[19] != -1:
         # black eyes
         # NOTE : navigate in negative brown direction
         proc_pred[19] = 0
