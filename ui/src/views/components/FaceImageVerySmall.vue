@@ -3,6 +3,7 @@
     <section class="section section-components pb-0" id="section-components">
         <div class="container">
             <div class="row justify-content-center">
+                
                 <div class="col-lg-12">
                     <img v-lazy="'img/sample.png'" v-if="!done"
                                  class="rounded-circle img-fluid shadow shadow-lg--hover"
@@ -48,6 +49,7 @@ export default {
   props: {
     angle: Number,
     lastGeneratedAngle: Number,  
+    face: String
     },
 
   mounted(){
@@ -56,14 +58,30 @@ export default {
     lastGeneratedAngle(newVal, oldVal) {
         if (newVal == this.angle){
             console.log(this.angle)
-            axios.post(this.$IP + 'rotate', {angle: this.angle})
+
+            // var style_ip = 'http://0.0.0.0:5000/rotate'      
+            // var rr_ip = 'http://3221ce87d940.ngrok.io/rotate'   
+            
+            var style_ip = 'http://0.0.0.0:5000/rotate'      
+            var rr_ip = 'http://0.0.0.0:5001/rotate'
+             
+            if (process.env.VUE_APP_MODE == '0'){
+                axios.post(style_ip, {angle: this.angle})
                 .then(function( response ){
-                    console.log(response)
-                    console.log(response.data)
-                this.faceimg = response.data.face;
-                this.done = true;
-                this.$emit('done', this.angle);
+                    this.faceimg = response.data.face;
+                    this.done = true;
+                    this.$emit('done', this.angle);
                 }.bind(this));
+            }
+            else {
+                axios.post(rr_ip, {image: this.face, angle: this.angle})
+                .then(function( response ){
+                    this.faceimg = response.data.face;
+                    this.done = true;
+                    this.$emit('done', this.angle);
+                }.bind(this));
+            }
+            
         }
     }
   }

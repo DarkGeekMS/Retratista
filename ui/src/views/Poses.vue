@@ -22,17 +22,30 @@
                             
                             <!-- image -->
                             <face-image :poses="true" :face="faceimg"></face-image>
-                            <div style="display: flex;">
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-200"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-150"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-100"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-50"></face-image-very-small>
+                            <div style="display: flex;" v-if="mode == '0'">
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-200"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-150"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-100"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-50"></face-image-very-small>
                             </div>
-                            <div style="display: flex;">
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="0"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="50"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="100"></face-image-very-small>
-                              <face-image-very-small @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="150"></face-image-very-small>
+                            <div style="display: flex;" v-if="mode == '0'">
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="0"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="50"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="100"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="150"></face-image-very-small>
+                            </div>
+
+                            <div style="display: flex;" v-if="mode == '1'">
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-50"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-35"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-20"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="-5"></face-image-very-small>
+                            </div>
+                            <div style="display: flex;" v-if="mode == '1'">
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="10"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="25"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="40"></face-image-very-small>
+                              <face-image-very-small style="width: 25%" :face="faceimg" @done="incAngle" :lastGeneratedAngle=lastGeneratedAngle :angle="55"></face-image-very-small>
                             </div>
 
                         </div>
@@ -48,7 +61,6 @@
 import FaceImage from './components/FaceImage.vue';
 import FaceImageVerySmall from './components/FaceImageVerySmall.vue';
 
-
 export default {
   components: { 
       FaceImage,
@@ -62,7 +74,8 @@ export default {
         generateClicked: false,
         done: true,
         firstGen: false,
-        lastGeneratedAngle: -90
+        lastGeneratedAngle: -90,
+        mode: ''
       }
     },
 
@@ -71,13 +84,24 @@ export default {
   },
   methods: {
     incAngle(angle) {
-        this.lastGeneratedAngle = angle + 50;
-        console.log(angle)
+        if(process.env.VUE_APP_MODE == '1'){
+          this.lastGeneratedAngle = angle + 15;
+        }
+        else{
+          this.lastGeneratedAngle = angle + 50;
+        }
         }
     },
   mounted(){
+    // console.log(process.env.VUE_APP_MODE)
+    this.mode = process.env.VUE_APP_MODE
     this.$nextTick(() => {
-        this.lastGeneratedAngle = -200;
+        if(process.env.VUE_APP_MODE == '1'){
+          this.lastGeneratedAngle = -50;
+        }
+        else{
+          this.lastGeneratedAngle = -200;
+        }
     })
   },
   
