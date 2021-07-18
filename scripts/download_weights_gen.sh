@@ -19,7 +19,7 @@ fi
 cd ../text_processing/
 
 if [ ! -d chickepoints ]; then
-    mkdir models
+    mkdir chickepoints
 
 cd ../chickepoints/
 
