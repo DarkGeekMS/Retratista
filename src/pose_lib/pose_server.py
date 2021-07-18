@@ -148,7 +148,11 @@ class PoseServer:
         self.opt.batchSize=1
         self.opt.isTrain = False
 
-        #self.testing_queue = Queue(10)
+
+        self.opt.resnet_n_downsample = 4
+        self.opt.resnet_n_blocks = 9
+        self.opt.resnet_kernel_size=3
+        self.opt.resnet_initial_kernel_size=7
 
         ngpus = self.opt.device_count
 
@@ -215,14 +219,14 @@ class PoseServer:
         landmark_list = []
 
 
-        tri = sio.loadmat('visualize/tri.mat')['tri']
+        tri = sio.loadmat('src/pose_lib/visualize/tri.mat')['tri']
         transform = transforms.Compose([ToTensorGjz(), NormalizeGjz(mean=127.5, std=128)])
 
         # 2. parse images list 
 
         img_ori = img
 
-        cv2.imwrite("face_data/Images/target.jpg", img)
+        cv2.imwrite("src/pose_lib/face_data/Images/target.jpg", img)
 
         pts_res = []
         Ps = []  # Camera matrix collection
@@ -280,14 +284,14 @@ class PoseServer:
 
         #Export parameters
 
-        save_name = "face_data/params/target.txt"
+        save_name = "src/pose_lib/face_data/params/target.txt"
         this_param = param * param_std + param_mean
         this_param = np.concatenate((this_param, roi_box))
         this_param.tofile(save_name, sep=' ')
 
         # #Export landmarks
 
-        save_path = "face_data/realign_lmk"
+        save_path = "src/pose_lib/face_data/realign_lmk"
 
         with open(save_path, 'w') as f:
             # f.write('{} {} {} {}')

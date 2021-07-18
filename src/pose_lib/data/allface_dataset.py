@@ -7,7 +7,7 @@ import cv2
 import torch
 from ..data import dataset_info
 from ..data.base_dataset import BaseDataset
-import ..util.util as util
+from src.pose_lib.util import util
 
 dataset_info = dataset_info()
 

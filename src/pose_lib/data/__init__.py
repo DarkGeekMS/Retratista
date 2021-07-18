@@ -8,21 +8,21 @@ from torch.utils.data.sampler import Sampler
 class dataset_info():
     def __init__(self):
         self.prefix = [
-                       './face_data/Images',
+                       'src/pose_lib/face_data/Images',
                        'PREFIX-TO-YOUR-DATASET'
                        ]
         self.file_list = [
-                     './face_data/file_list.txt',
+                     'src/pose_lib/face_data/file_list.txt',
                      'YOUE-FILE-LIST.txt'
                      ]
 
         self.land_mark_list = [
-                          './face_data/realign_lmk',
+                          'src/pose_lib/face_data/realign_lmk',
                           'LANDMARKS-OF-FACES-IN-YOUR-DATASET'
                           ]
 
         self.params_dir = [
-                           './face_data/params',
+                           'src/pose_lib/face_data/params',
                            '3DFITTING-RESULTS-HOME-DIR'
                            ]
         self.dataset_names = {'example': 0, 'YOUR-DATASET': 1}
@@ -40,7 +40,7 @@ def find_dataset_using_name(dataset_name):
     # Given the option --dataset [datasetname],
     # the file "datasets/datasetname_dataset.py"
     # will be imported. 
-    dataset_filename = "data." + dataset_name + "_dataset"
+    dataset_filename = "src.pose_lib.data." + dataset_name + "_dataset"
     datasetlib = importlib.import_module(dataset_filename)
 
     # In the file, the class called DatasetNameDataset() will

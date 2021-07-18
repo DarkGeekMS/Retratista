@@ -31,4 +31,4 @@ RUN ./scripts/download_weights_rot.sh
 
 EXPOSE 5001
 
-CMD python3 run_rotator.py production 5001
+CMD python3 run_rotator.py
