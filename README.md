@@ -71,5 +71,8 @@ Figure(2): Web application design.
 -   Build and run application ui (port 8080) :
     ```bash
     cd ui
-    bash build_ui.sh
+    bash setup_ui.sh
+    npm run style # only stylegan2 server
+    # OR
+    npm run styleRR # both stylegan2 and pose server
     ```
