@@ -1,49 +1,132 @@
 import torch
-from torch.utils.data import DataLoader
-from torch.utils.data import SequentialSampler
-import pandas as pd
+import pickle
 import numpy as np
-from importlib import import_module
-import os
-import json
+from transformers import DistilBertTokenizer, AlbertTokenizer, RobertaTokenizer, BertTokenizer
+from .model import BertRegressor
 
-from .pybert.io.utils import collate_fn
-from .pybert.io.bert_processor import BertProcessor
-from .pybert.configs.inference_config import config
-from .pybert.model.bert_for_multi_label import BertForMultiLable
-from .pybert.test.predictor import Predictor
 
-class BERTMultiLabelClassifier():
-    def __init__(self):
-        
-        self.checkpoint_dir = config['checkpoint_dir'] / 'bert'
-        
-        with open(self.checkpoint_dir / 'config.json') as config_file:
-            configs = json.load(config_file)
-            self.num_labels = configs['num_labels']
+class TextProcessor():
+    def __init__(self, architecture, checkpoint_path = None):
+        # device
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        # model
+        if checkpoint_path is None:
+            checkpoint_path = 'src/stylegan_lib/text_processing/checkpoints/' + architecture + '.pth'
 
-        self.processor = BertProcessor(vocab_path=config['bert_vocab_path'], do_lower_case=True, num_labels = self.num_labels)
+        self.model = BertRegressor(architecture, from_pretrained=False).to(self.device)
+        self.model.load_state_dict(torch.load(checkpoint_path, self.device)) 
+        # model.load_state_dict(copy.deepcopy(torch.load("model_state.pth",device)))
+        # tokenizer
+        if architecture == 'bert-base-uncased':
+            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-        self.model = BertForMultiLable.from_pretrained(self.checkpoint_dir, num_labels=self.num_labels)
-        self.predictor = Predictor(model=self.model,
-                            path_to_max_attributes = config['max_attributes_path'],
-                            n_gpu='0')
-        self.target = [0]*self.num_labels
+        if architecture == 'distilbert-base-uncased':
+            self.tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 
-    def predict(self, description):
-        lines = list(zip([description], [self.target]))
-        
-        test_data = self.processor.get_test(lines=lines)
-        test_examples = self.processor.create_examples(lines=test_data,
-                                                example_type='test',
-                                                cached_examples_file='')
-        test_features = self.processor.create_features(examples=test_examples,
-                                                max_seq_len=256,
-                                                cached_features_file='')
-        test_dataset = self.processor.create_dataset(test_features)
-        test_sampler = SequentialSampler(test_dataset)
-        test_dataloader = DataLoader(test_dataset, sampler=test_sampler, batch_size=1,
-                                    collate_fn=collate_fn)
-        
-        results = self.predictor.predict(data=test_dataloader)[0]
-        return results
+        if architecture == 'albert-base-v2':
+            self.tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
+
+        if architecture == 'roberta-base':
+            self.tokenizer = RobertaTokenizer.from_pretrained('roberta-base') 
+
+        # normalization post processing details
+        with open('src/stylegan_lib/text_processing/attributes_max.pkl', 'rb') as f:
+            self.attributes_max_values = pickle.load(f)
+        self.zero_start_attributes = [
+            'Bushy_Eyebrows',
+            'Straight_Hair',
+            'Beard',
+            'Skin_Color',
+            'Chubby',
+            'Male',
+            'Old',
+            'Wide_Eyes',
+            'Big_Lips',
+            'Big_Nose',
+            'Big_Ears',
+            'Wearing_Lipstick'
+        ]
+        self.nonzero_start_attributes = [
+            'Black_Hair',
+            'Blond_Hair',
+            'Brown_Hair',
+            'Gray_Hair',
+            'Red_Hair',
+            'Receding_Hairline',
+            'Bald',
+            'Bangs',
+            'Hair_Length',
+            'Asian',
+            'Bags_Under_Eyes',
+            'Black_Eyes',
+            'Green_Eyes',
+            'Blue_Eyes',
+            'Brown_Eyes',
+            'Double_Chin',
+            'High_Cheekbones',
+            'Pointy_Nose',
+            'Rosy_Cheeks',
+            'Heavy_Makeup',
+            'Wearing_SightGlasses',
+            'Wearing_SunGlasses'
+        ]
+
+    def make_logits(self, logits):
+        all_logits_mod_list = []
+        for log in logits:
+            attributes = list(self.attributes_max_values.keys())
+            logits_mod = {attributes[i]: np.round(log[i]) for i in range(len(attributes))}
+
+            # round on glasses
+            logits_mod['Wearing_SightGlasses'] = np.round(logits_mod['Wearing_SightGlasses'])
+            logits_mod['Wearing_SunGlasses'] = np.round(logits_mod['Wearing_SunGlasses'])
+
+            # option 1 - zero start
+            for zs_attr in self.zero_start_attributes:
+                # not mentioned
+                if logits_mod[zs_attr] < 0.5:
+                    if zs_attr != 'Male':
+                        logits_mod[zs_attr] = -1 
+                    else:
+                        logits_mod[zs_attr] = 0
+                # nothing else should be negative
+                elif logits_mod[zs_attr] <= 1:
+                    if zs_attr != 'Male':
+                        logits_mod[zs_attr] = 0
+                    else:
+                        logits_mod[zs_attr] = 1
+                # mentioned -> scale
+                else:
+                    if zs_attr == 'Male':
+                        logits_mod[zs_attr] = 1
+                    else:
+                        logits_mod[zs_attr] -= 1
+                        logits_mod[zs_attr] = logits_mod[zs_attr] / (self.attributes_max_values[zs_attr]-2)
+                
+            # option 2 - non-zero start 
+            for nzs_attr in self.nonzero_start_attributes:
+                # not mentioned
+                if logits_mod[nzs_attr] < 0.5:
+                    logits_mod[nzs_attr] = -1 
+                # mentioned -> scale
+                else:
+                    logits_mod[nzs_attr] = logits_mod[nzs_attr] / (self.attributes_max_values[nzs_attr] - 1)
+
+            # clip on 1 max
+            for key in logits_mod.keys():
+                if logits_mod[key] > 1:
+                    logits_mod[key] = 1
+
+            logits_mod_list = list(logits_mod.values())
+            all_logits_mod_list.append(logits_mod_list)
+
+        return all_logits_mod_list    
+
+    def predict(self, sentence):
+        # encode the sentence
+        encodings = self.tokenizer([sentence], truncation=True, padding=True)
+        input_ids = torch.tensor(encodings['input_ids']).to(self.device)
+        attention_mask = torch.tensor(encodings['attention_mask']).to(self.device)
+        logits = self.model(input_ids, attention_mask=attention_mask, train=False).cpu().data.numpy()
+        logits = self.make_logits(logits)
+        return logits[0]

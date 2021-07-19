@@ -2,6 +2,7 @@ import os
 import sys
 from app.rotator import app
 
+
 def run(env, port_num):
 	# initialize Flask application
 	# application localhost port
@@ -20,5 +21,4 @@ def run(env, port_num):
 
 if __name__ == "__main__":
 	# initialize Flask application
-	#run(sys.argv[1], sys.argv[2])
-	run("production", 5001)
+	run('production', 5001)

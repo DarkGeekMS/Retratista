@@ -139,6 +139,7 @@ models/
 pytorch_model.bin
 train.configs
 src/pose_lib/checkpoints
+src/stylegan_lib/text_processing/checkpoints
 *.tar
 
 # output files

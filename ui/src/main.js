@@ -27,6 +27,7 @@ Vue.use(VueParticlesBg);
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
+console.log(process.env.VUE_APP_MODE)
 
 
 Vue.config.productionTip = false;

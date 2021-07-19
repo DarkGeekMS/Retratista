@@ -19,6 +19,8 @@ services:
             dockerfile: ./docker/ui/Dockerfile
         ports:
             - "8080:8080"
+        environment:
+            TYPE: $TYPE_ARG
     pose_server:
         image: retratista:pose_server
         build:

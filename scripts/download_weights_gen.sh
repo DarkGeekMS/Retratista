@@ -16,10 +16,16 @@ if [ ! -f initial_seed.npy ]; then
     megadl 'https://mega.nz/#!3ZwSlLTC!vlbC_I_kw2l5bLGwPuXRM5_nerbJ9WPHeDmhU04l9qQ'
 fi
 
-cd ../text_processing/pybert/output/checkpoints/bert
+cd ../text_processing
 
-if [ ! -f pytorch_model.bin ]; then
-    megadl 'https://mega.nz/#!iQ4iBBYA!2k7bWbeZLixzt3c_ry2sHhHBahol7nL8RRBeoGksu9c'
+if [ ! -d checkpoints ]; then
+    mkdir checkpoints
 fi
 
-cd ../../../../../../..
+cd checkpoints
+
+if [ ! -f distilbert-base-uncased.pth ]; then
+    megadl 'https://mega.nz/#!CchDlSJD!Oe3QmtiTCRaqqEIqZSXxlcoqycbXKka2mAjxUq3yJGI'
+fi
+
+cd ../../../..
