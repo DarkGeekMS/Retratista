@@ -3,6 +3,7 @@ import base64
 import requests
 from PIL import Image
 import cv2
+import numpy as np
 
 
 with open("test.jpg", "rb") as image_file:
@@ -18,5 +19,7 @@ resp = requests.post(
 image = base64.b64decode(str(resp.json()['face']))
 
 img = Image.open(io.BytesIO(image))
+
+print(np.array(img).shape)
 
 img.show()
