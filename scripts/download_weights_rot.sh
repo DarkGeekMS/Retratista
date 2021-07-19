@@ -8,12 +8,24 @@ fi
 
 cd train.configs
 
+if [ ! -f 106_index.npy ]; then
+    megadl 'https://mega.nz/#!6BhilC5S!hZ_nf1jSyBkp2ZGi7y9LjegPciknXm2PuosZl6HYF4I'
+fi
+
 if [ ! -f keypoints_sim.npy ]; then
     megadl 'https://mega.nz/#!aJxmjSrZ!0Z3F0LWshPPXZl9RFzXcCPQ35nmFodpHyA1YfbfXUdg'
 fi
 
+if [ ! -f Model_PAF.npy ]; then
+    megadl 'https://mega.nz/#!KV4CTATI!3P9Ra_jyfRAxpyulwFdonzpW0HzxwdfZBRydblVc3s0'
+fi
+
 if [ ! -f param_whitening.pkl ]; then
     megadl 'https://mega.nz/#!HZYDHQBA!5uHRos0ZH8CR03jUpCirU_JzuBRpy1MWpeo4t4Btzq4'
+fi
+
+if [ ! -f pncc_code.npy ]; then
+    megadl 'https://mega.nz/#!TEggACqR!hdu4Wal_j5CXY-wCJAkBb7ijw2mk8cvcpVIUN6-pDVA'
 fi
 
 if [ ! -f u_exp.npy ]; then
