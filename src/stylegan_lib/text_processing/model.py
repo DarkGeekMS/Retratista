@@ -38,9 +38,10 @@ class BertRegressor(nn.Module):
         self.regressor = nn.Linear(768, 34, bias=True)
         self.dropout = nn.Dropout(0.1)
                 
-    def forward(self, input_ids, attention_mask):
+    def forward(self, input_ids, attention_mask, train = True):
         outputs = self.bert(input_ids, attention_mask=attention_mask)
         pooled_output,_ = torch.max(outputs['last_hidden_state'], 1)
-        pooled_output = self.dropout(pooled_output)
+        if train:
+            pooled_output = self.dropout(pooled_output)
         logits_reg = self.regressor(pooled_output)
         return logits_reg

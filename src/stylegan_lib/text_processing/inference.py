@@ -75,7 +75,7 @@ class TextProcessor():
         all_logits_mod_list = []
         for log in logits:
             attributes = list(self.attributes_max_values.keys())
-            logits_mod = {attributes[i]: log[i] for i in range(len(attributes))} 
+            logits_mod = {attributes[i]: np.round(log[i]) for i in range(len(attributes))}
 
             # round on glasses
             logits_mod['Wearing_SightGlasses'] = np.round(logits_mod['Wearing_SightGlasses'])
@@ -127,6 +127,6 @@ class TextProcessor():
         encodings = self.tokenizer([sentence], truncation=True, padding=True)
         input_ids = torch.tensor(encodings['input_ids']).to(self.device)
         attention_mask = torch.tensor(encodings['attention_mask']).to(self.device)
-        logits = self.model(input_ids, attention_mask=attention_mask).cpu().data.numpy()
+        logits = self.model(input_ids, attention_mask=attention_mask, train=False).cpu().data.numpy()
         logits = self.make_logits(logits)
         return logits[0]
