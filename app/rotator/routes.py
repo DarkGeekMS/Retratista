@@ -20,7 +20,6 @@ def tgenerate():
         # post-process required image
         image = base64.b64decode(str(image))
         image = Image.open(io.BytesIO(image))
-        #image = image.resize((1024,1024), Image.ANTIALIAS)
         image = np.array(image) 
         image = image[:, :, ::-1].copy() 
         # rotate generated face with given angle
