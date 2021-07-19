@@ -1,11 +1,11 @@
 import io
+import sys
 import base64
 import requests
 from PIL import Image
-import cv2
 
 
-with open("test.jpg", "rb") as image_file:
+with open(sys.argv[1], "rb") as image_file:
     input_img = base64.b64encode(image_file.read()) 
 
 resp = requests.post(
