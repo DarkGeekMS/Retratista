@@ -1,5 +1,7 @@
 FROM vuejs/ci:latest
 
+ARG TYPE
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get install locales -y
@@ -22,4 +24,4 @@ RUN npm rebuild node-sass
 
 EXPOSE 8080
 
-CMD npm run serve
+CMD npm run $TYPE
