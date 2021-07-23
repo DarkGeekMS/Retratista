@@ -4,6 +4,8 @@ ARG TYPE
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update && apt-get install -y --no-install-recommends megatools
+
 RUN apt-get install locales -y
 RUN sed -i -e 's/# en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 \
@@ -13,6 +15,8 @@ ENV LANG=en_US.UTF-8 \
 WORKDIR /retratista
 
 COPY ./ui /retratista
+
+RUN ./download_demo.sh
 
 RUN npm install
 RUN npm install -S vue-sweetalert2
