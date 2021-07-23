@@ -150,6 +150,7 @@ out
 .DS_Store
 node_modules
 /dist
+ui/public/demo.mp4
 
 # local env files
 .env.local
