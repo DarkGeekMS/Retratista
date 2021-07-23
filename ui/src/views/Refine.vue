@@ -471,6 +471,7 @@ export default {
             this.radio.eye_bags = 'with'
             this.old_features.eye_bags = 'with'
         }
+
         this.sliders.eye_width = this.loclogits[17]*100
         this.sliders.green_eyes = this.loclogits[18]*100
         this.sliders.blue_eyes = this.loclogits[19]*100
@@ -627,7 +628,13 @@ export default {
         new_logits.push(this.sliders.eyes_distance/100)
         new_logits.push(this.sliders.eye_eyebrow_distance/100)
         new_logits.push(this.sliders.nose_mouth_distance/100)
-        new_logits.push(this.sliders.open_eyes/100)
+        if (Math.abs(this.loclogits[17] - (this.sliders.open_eyes/100)) < 0.001){
+            new_logits.push(-1)
+        }
+        else{
+            new_logits.push(this.sliders.open_eyes/100)
+        }
+        // new_logits.push(this.sliders.open_eyes/100)
         new_logits.push(this.sliders.mouth_open/100)
         new_logits.push(this.sliders.smile/100)
 

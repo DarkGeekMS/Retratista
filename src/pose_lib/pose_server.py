@@ -110,7 +110,7 @@ class PoseServer:
     def __init__(self):
         arch = "mobilenet_1"
         model = getattr(mobilenet_v1, arch)(num_classes=62)  # 62 = 12(pose) + 40(shape) +10(expression)
-        checkpoint_fp = 'phase1_pdc.pth.tar'
+        checkpoint_fp = 'src/pose_lib/phase1_pdc.pth.tar'
         checkpoint = torch.load(checkpoint_fp, map_location=lambda storage, loc: storage)['state_dict']
         model_dict = model.state_dict()
         # because the model is trained by multiple gpus, prefix module should be removed
