@@ -12,7 +12,6 @@ import neural_renderer as nr
 
 
 def _get_suffix(filename):
-    """a.jpg -> jpg"""
     pos = filename.rfind('.')
     if pos == -1:
         return ''
@@ -28,14 +27,7 @@ def _load(fp):
 
 
 def P2sRt(P):
-    ''' decompositing camera matrix P.
-    Args:
-        P: (3, 4). Affine Camera Matrix.
-    Returns:
-        s: scale factor.
-        R: (3, 3). rotation matrix.
-        t2d: (2,). 2d translation.
-    '''
+ 
     t3d = P[:, 3]
     R1 = P[0:1, :3]
     R2 = P[1:2, :3]
@@ -49,15 +41,6 @@ def P2sRt(P):
 
 
 def matrix2angle(R):
-    ''' compute three Euler angles from a Rotation Matrix. Ref: http://www.gregslabaugh.net/publications/euler.pdf
-    Args:
-        R: (3,3). rotation matrix
-    Returns:
-        x: yaw
-        y: pitch
-        z: roll
-    '''
-    # assert(isRotationMatrix(R))
 
     if R[2, 0] != 1 and R[2, 0] != -1:
         x = -asin(max(-1, min(R[2, 0], 1)))
@@ -77,15 +60,7 @@ def matrix2angle(R):
 
 
 def angle2matrix(angles):
-    ''' get rotation matrix from three rotation angles(radian). The same as in 3DDFA.
-    Args:
-        angles: [3,]. x, y, z angles
-        x: yaw.
-        y: pitch.
-        z: roll.
-    Returns:
-        R: 3x3. rotation matrix.
-    '''
+
     # x, y, z = np.deg2rad(angles[0]), np.deg2rad(angles[1]), np.deg2rad(angles[2])
     # x, y, z = angles[0], angles[1], angles[2]
     y, x, z = angles[0], angles[1], angles[2]
@@ -124,7 +99,7 @@ class Render(object):
 
         self.std_size = 120
 
-        self.current_gpu = opt.gpu_ids
+        self.current_gpu = 0
         with torch.cuda.device(self.current_gpu):
             self.faces = torch.from_numpy(faces_np).cuda()
             self.renderer = nr.Renderer(camera_mode='look', image_size=self.render_size, perspective=False,
@@ -165,7 +140,7 @@ class Render(object):
 
     def _parse_param(self, param, pose_noise=False, frontal=True, 
                      large_pose=False, yaw_pose=None, pitch_pose=None):
-        """Work for both numpy and tensor"""
+
         p_ = param[:12].reshape(3, -1)
         p = p_[:, :3]
         s, R, t3d = P2sRt(p_)
@@ -331,11 +306,6 @@ class Render(object):
     def get_render_from_vertices(self, img_ori, vertices_in_ori_img):
         c, h, w = img_ori.size()
         img_ori = img_ori.clone().permute(1, 2, 0)
-        # random_num = np.random.randint(30000, 50000)
-        #         vertices_in_ori_img[:,30000:50000] = vertices_in_ori_img[:,30000:50000] * 1.02 - 3
-        # vertices_in_ori_img[:, 20000:random_num] = vertices_in_ori_img[:, 20000:random_num] * np.random.uniform(1.01,
-        #                                                                          1.02) - np.random.uniform(0.5, 1.5)
-
         
         textures = img_ori[vertices_in_ori_img[1, :].round().clamp(0, h - 1).long(), \
                    vertices_in_ori_img[0, :].round().clamp(0, w - 1).long(), :]

@@ -19,12 +19,12 @@ class TestModel(RotateSPADEModel):
 
     def forward(self, data, mode):
         if mode == 'single':
-            real_image = data['image']
+            real_image = data['image'].cuda()
             rotated_landmarks = data['rotated_landmarks']
             original_angles = data['original_angles']
             self.rotated_seg, rotated_seg_all = \
                 self.get_seg_map(rotated_landmarks, self.opt.no_gaussian_landmark, self.opt.crop_size, original_angles)
-            rotated_mesh = data['rotated_mesh']
+            rotated_mesh = data['rotated_mesh'].cuda(0)
             if self.opt.label_mask:
                 rotated_mesh = (rotated_mesh + rotated_seg_all[:, 4].unsqueeze(1) + rotated_seg_all[:, 0].unsqueeze(1))
                 rotated_mesh[rotated_mesh >= 1] = 0

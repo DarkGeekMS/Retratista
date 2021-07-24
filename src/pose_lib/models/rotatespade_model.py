@@ -74,12 +74,6 @@ class RotateSPADEModel(torch.nn.Module):
         all_orig_heatmap[all_orig_heatmap > 0] = 2.0
         return all_heatmap, all_orig_heatmap
 
-    # Entry point for all calls involving forward pass
-    # of deep networks. We used this approach since DataParallel module
-    # can't parallelize custom functions, we branch to different
-    # routines based on |mode|.
-    # |data|: dictionary of the input data
-
 
     def forward(self, data, mode):
         real_image = data['image']

@@ -10,7 +10,7 @@ class TestOptions(BaseOptions):
         parser.add_argument('--which_epoch', type=str, default='latest', help='which epoch to load? set to latest to use latest cached model')
         parser.add_argument('--how_many', type=int, default=float("inf"), help='how many test images to run')
         parser.add_argument('--list_start', type=int, default=0, help='which num in the list to start')
-        parser.add_argument('--list_end', type=int, default=float("inf"), help='how many test images to run')
+        parser.add_argument('--list_end', type=int, default=0, help='how many test images to run')
         parser.add_argument('--save_path', type=str, default='src/pose_lib/results/', help='where to save data')
         parser.add_argument('--names', type=str, default='rs_ijba3', help='dataset')
         parser.add_argument('--multi_gpu', action='store_true', help='whether to use multi gpus')
