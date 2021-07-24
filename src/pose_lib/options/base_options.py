@@ -15,7 +15,7 @@ class BaseOptions():
 
     def initialize(self, parser):
         # experiment specifics
-        parser.add_argument('--name', type=str, default='mesh2face', help='name of the experiment. It decides where to store samples and models')
+        parser.add_argument('--name', type=str, default='rs_model', help='name of the experiment. It decides where to store samples and models')
 
         parser.add_argument('--gpu_ids', type=str, default='0', help='useless')
         parser.add_argument('--checkpoints_dir', type=str, default='src/pose_lib/checkpoints', help='models are saved here')

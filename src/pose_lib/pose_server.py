@@ -65,7 +65,6 @@ class PoseServer:
 
         self.render_layer = TestRender(self.opt)
 
-        self.opt.name = "rs_model"
         self.model = TestModel(self.opt)
         self.model.eval()
         self.model = self.model.cuda()
