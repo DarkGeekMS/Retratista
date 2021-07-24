@@ -2,11 +2,6 @@
 # coding: utf-8
 
 
-"""
-Modified from https://raw.githubusercontent.com/YadiraF/PRNet/master/utils/render.py
-"""
-
-__author__ = 'cleardusk'
 
 import numpy as np
 from .cython import mesh_core_cython

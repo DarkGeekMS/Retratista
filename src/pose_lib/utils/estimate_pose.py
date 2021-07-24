@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-"""
-Reference: https://github.com/YadiraF/PRNet/blob/master/utils/estimate_pose.py
-"""
 
 from math import cos, sin, atan2, asin, sqrt
 import numpy as np

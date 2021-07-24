@@ -18,10 +18,6 @@ def load_obj(name):
     with open(name, 'rb') as f:
         return pickle.load(f)
 
-# returns a configuration for creating a generator
-# |default_opt| should be the opt of the current experiment
-# |**kwargs|: if any configuration should be overriden, it can be specified here
-
 
 def copyconf(default_opt, **kwargs):
     conf = argparse.Namespace(**vars(default_opt))

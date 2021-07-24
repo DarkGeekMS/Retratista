@@ -12,8 +12,7 @@ import time
 import face_alignment
 from .utils.ddfa import ToTensorGjz, NormalizeGjz, str2bool
 import scipy.io as sio
-from .utils.inference import parse_roi_box_from_landmark, crop_img, predict_68pts, predict_dense, parse_roi_box_from_bbox, get_colors, get_5lmk_from_68lmk
-from .utils.estimate_pose import parse_pose
+from .utils.inference import parse_roi_box_from_landmark, crop_img, predict_68pts, parse_roi_box_from_bbox, get_5lmk_from_68lmk
 from .utils.params import param_mean, param_std
 from . import data
 from .data.data_utils import get_multipose_test_input
@@ -87,7 +86,6 @@ class PoseServer:
         landmark_list = []
 
 
-        tri = sio.loadmat('src/pose_lib/visualize/tri.mat')['tri']
         transform = transforms.Compose([ToTensorGjz(), NormalizeGjz(mean=127.5, std=128)])
 
 
@@ -96,9 +94,6 @@ class PoseServer:
         cv2.imwrite("src/pose_lib/face_data/Images/target.jpg", img)
 
         pts_res = []
-        Ps = []  
-        poses = [] 
-        vertices_lst = [] 
         ind = 0
 
         preds = self.alignment_model.get_landmarks(img_ori[:, :, ::-1])
@@ -127,14 +122,6 @@ class PoseServer:
             param = self.face_model_generator(input)
             param = param.squeeze().cpu().numpy().flatten().astype(np.float32)
 
-        pts68 = predict_68pts(param, roi_box)
-
-        pts_res.append(pts68)
-        P, pose = parse_pose(param)
-        Ps.append(P)
-        poses.append(pose)
-
-        vertices = predict_dense(param, roi_box)
 
         #Export parameters
 
@@ -170,8 +157,6 @@ class PoseServer:
 
         data = get_multipose_test_input(data, self.render_layer, self.opt.yaw_poses, [])
 
-        img_path = data['path']
-        poses = data['pose_list']
         rotated_landmarks = data['rotated_landmarks'][:, :, :2].cpu().numpy().astype(np.float)
 
         generate_rotated = self.model.forward(data)
