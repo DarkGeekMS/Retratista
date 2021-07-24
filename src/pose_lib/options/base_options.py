@@ -19,14 +19,14 @@ class BaseOptions():
 
         parser.add_argument('--gpu_ids', type=str, default='0', help='useless')
         parser.add_argument('--checkpoints_dir', type=str, default='src/pose_lib/checkpoints', help='models are saved here')
-        parser.add_argument('--model', type=str, default='rotate', help='which model to use, rotate|rotatespade')
+        parser.add_argument('--model', type=str, default='rotatespade', help='which model to use, rotate|rotatespade')
         parser.add_argument('--trainer', type=str, default='rotate', help='which trainer to use, rotate|rotatespade')
-        parser.add_argument('--norm_G', type=str, default='spectralinstance', help='instance normalization or batch normalization')
+        parser.add_argument('--norm_G', type=str, default='spectralsyncbatch', help='instance normalization or batch normalization')
         parser.add_argument('--norm_D', type=str, default='spectralinstance', help='instance normalization or batch normalization')
         parser.add_argument('--norm_E', type=str, default='spectralinstance', help='instance normalization or batch normalization')
         parser.add_argument('--phase', type=str, default='train', help='train, val, test, etc')
         parser.add_argument('--device_count', type=int, default=8, help='the total number of gpus to use')
-        parser.add_argument('--render_thread', type=int, default=2, help='number of gpus used for rendering')
+        parser.add_argument('--render_thread', type=int, default=1, help='number of gpus used for rendering')
         parser.add_argument('--chunk_size', default=None, type=int, nargs='+', help='specify the batch size on each training gpu. Training gpu # = device_count - render_thread')
         # input/output sizes
         # parser.add_argument('--batchSize', type=int, default=1, help='input batch size')
@@ -39,7 +39,7 @@ class BaseOptions():
         parser.add_argument('--output_nc', type=int, default=3, help='# of output image channels')
 
         # for setting inputs
-        parser.add_argument('--dataset', type=str, default='ms1m,casia', help='dataset')
+        parser.add_argument('--dataset', type=str, default='example', help='dataset')
         parser.add_argument('--dataset_mode', type=str, default='allface')
         parser.add_argument('--landmark_align', action='store_true', help='wether there is landmark_align')
         parser.add_argument('--serial_batches', action='store_true', help='if true, takes images in order to make batches, otherwise takes them randomly')
@@ -54,7 +54,7 @@ class BaseOptions():
         parser.add_argument('--display_winsize', type=int, default=400, help='display window size')
 
         # for generator
-        parser.add_argument('--netG', type=str, default='rotate', help='selects model to use for netG (pix2pixhd | spade)')
+        parser.add_argument('--netG', type=str, default='rotatespade', help='selects model to use for netG (pix2pixhd | spade)')
         parser.add_argument('--ngf', type=int, default=64, help='# of gen filters in first conv layer')
         parser.add_argument('--init_type', type=str, default='xavier', help='network initialization [normal|xavier|kaiming|orthogonal]')
         parser.add_argument('--init_variance', type=float, default=0.02, help='variance of the initialization distribution')
@@ -65,7 +65,7 @@ class BaseOptions():
 
         parser.add_argument('--no_gaussian_landmark', action='store_true', help='whether to use no_gaussian_landmark (1.0 landmark) for rotatespade model')
         parser.add_argument('--label_mask', action='store_true', help='whether to use face mask')
-        parser.add_argument('--heatmap_size', type=float, default=3, help='the size of the heatmap, used in rotatespade model')
+        parser.add_argument('--heatmap_size', type=float, default=2.5, help='the size of the heatmap, used in rotatespade model')
         parser.add_argument('--erode_kernel', type=int, default=21, help='erode kernel size, used in renderer')
 
         self.initialized = True
