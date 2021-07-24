@@ -10,6 +10,7 @@ import math
 from tqdm import tqdm
 import time
 import face_alignment
+from src.pose_lib.cyclegan_gen.generator import Generator
 from .utils.ddfa import ToTensorGjz, NormalizeGjz, str2bool
 import scipy.io as sio
 from .utils.inference import parse_roi_box_from_landmark, crop_img, predict_68pts, predict_dense, parse_roi_box_from_bbox, get_colors, get_5lmk_from_68lmk
