@@ -140,6 +140,7 @@ pytorch_model.bin
 train.configs
 src/pose_lib/checkpoints
 src/stylegan_lib/text_processing/checkpoints
+src/stylegan_lib/speech_recognition/SpeechModel.pt
 *.tar
 
 # output files
