@@ -39,7 +39,6 @@ class PoseServer:
         checkpoint_fp = 'src/pose_lib/3d_fitting.pth.tar'
         checkpoint = torch.load(checkpoint_fp, map_location=lambda storage, loc: storage)['state_dict']
         model_dict = model.state_dict()
-        # because the model is trained by multiple gpus, prefix module should be removed
         for k in checkpoint.keys():
             model_dict[k.replace('module.', '')] = checkpoint[k]
         model.load_state_dict(model_dict)
