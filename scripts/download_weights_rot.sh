@@ -46,8 +46,8 @@ fi
 
 cd ..
 
-if [ ! -f phase1_pdc.pth.tar ]; then
-    megadl 'https://mega.nz/#!3I4RmY7C!t72Q_-ocBLyqcuY_oFb2sT_YpeoC9R2tKqOuMKlQ9uk'
+if [ ! -f 3d_fitting.pth.tar ]; then
+    megadl 'https://mega.nz/#!nBZxRYLQ!-Xo9LQ-RHuzxUCSzQhSl-CRyIDZONTtnXFDMcLaieg4'
 fi
 
 if [ ! -d checkpoints/rs_model ]; then
