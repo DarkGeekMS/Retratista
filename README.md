@@ -6,6 +6,8 @@
 
 Retratista is a web-based application that enables the user to generate and manipulate a realistic human face from bare description.
 
+For further details about our experimentation, refer to [portrait-synthesis-from-speech](https://github.com/DarkGeekMS/portrait-synthesis-from-speech).
+
 ## System Workflow
 
 <div align=center><img width="80%" height="80%" src="assets/system-design.png"/></div>
