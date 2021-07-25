@@ -16,7 +16,7 @@ if [ ! -f keypoints_sim.npy ]; then
     megadl 'https://mega.nz/#!aJxmjSrZ!0Z3F0LWshPPXZl9RFzXcCPQ35nmFodpHyA1YfbfXUdg'
 fi
 
-if [ ! -f Model_PAF.npy ]; then
+if [ ! -f Model_PAF.pkl ]; then
     megadl 'https://mega.nz/#!KV4CTATI!3P9Ra_jyfRAxpyulwFdonzpW0HzxwdfZBRydblVc3s0'
 fi
 
